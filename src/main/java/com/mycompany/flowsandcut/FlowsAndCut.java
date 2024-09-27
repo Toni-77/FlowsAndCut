@@ -5,7 +5,6 @@
 package com.mycompany.flowsandcut;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,10 +14,34 @@ import java.util.List;
 public class FlowsAndCut {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        //initialGraph();
-        System.out.println(Arrays.deepToString(ff(initialGraph(),0,4)));
+        String[]vertexes = {"A","B","C","D","E"};
+        List<String> solution;
+        // the minCut method will return the adges that need to be removed
+        solution = minCut(initialGraph(),ff(initialGraph(),0,4),vertexes );
+        //Print solution
+        System.out.println(solution);
+        
     }
+    
+    public static List<String> minCut(int[][] startingGraph, int[][]residualGraph, String[]vertexes ){
+        // create a List to store the cutting edges
+        List<String> cutEdges = new ArrayList();
+        // loop through the both the initial and the residual arrays to find the edges that are saturated
+        // after the max flow is found, i.e. the the edges that had a value in the original graph,
+        // but have 0 in the residual graph because they were used to the max.
+        for(int row = 0; row < startingGraph.length; row ++ )
+            for(int column = 0; column < startingGraph.length; column++)
+            {
+                if((startingGraph [row][column] > 0) && (residualGraph[row][column] == 0))
+                {
+                    // add the saturated edges to the returning arraylist
+                    cutEdges.add(vertexes[row] + vertexes[column]);
+                }
+            }  
+           return cutEdges;
+       }
+        
+    
    
    
     public static List<Integer> findPath(int[][] graph, int source, int target, List<Integer> path) {
@@ -165,9 +188,9 @@ public class FlowsAndCut {
         };
 
         // If you need to print the graph
-        for (int[] row : G) {
-            System.out.println(Arrays.toString(row));
-        }
+//        for (int[] row : G) {
+//            System.out.println(Arrays.toString(row));
+//        }
         return G;
    }
 }
